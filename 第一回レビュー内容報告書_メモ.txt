@@ -17,6 +17,8 @@ publicholidayを削除( ;∀;)
 private_companyとcustomer_companyを○○timeに(^^)/
 horiday_tipeのTCを作成
 TTのwork_time
+work_timeの遅刻,早退フラグ追加
+勤務地テーブルに始業時間,終業時間,勤務時間を追加してほしい
 
 
 【画面設計書】
@@ -40,5 +42,6 @@ TTのwork_time
 　契約ID→契約形態
 カレンダー
 　祝日テーブルいらん。カレンダーテーブルに祝日フラグ列追加。
+　いちいち一個一個入力するのか？
 
 

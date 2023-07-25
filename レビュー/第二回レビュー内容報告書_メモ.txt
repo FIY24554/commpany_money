@@ -4,7 +4,7 @@
  
 
 【DB設計書】
-TM_Staff_locationに交通費、削除フラグ列ほしい（契約開始、契約終了）
+TE_Staff_Locationに交通費、削除フラグ列ほしい（契約開始、契約終了）
 TE_Timeに勤務先ほしい
 userの消し忘れ
 始業時間、・・・のカラムをstafflocationに移動、勤務形態によって違うからユーザごとに管理

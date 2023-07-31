@@ -6,13 +6,117 @@
 </head>
 <body>
 	<h1>勤務時間計算画面</h1>
-	<div class="f">社員<div>
-	<select class="input">
-	<input type="text"disabled>
-	<input type="text"disabled>
-
+	<div class="f">
+		<div>社員</div>
+		<select class="input"></select>
+		<div class="m">交通費</div>
+		<input class="input" type="text"disabled>
+		<div class="m">備考</div>
+		<input class="input" type="text"disabled>
+		<button class="button" id="ALL_button">一括</button>
+	</div>
+	<br>
+	<table border="1">
+		<tr><th rowspan="3"colspan="2">日付</th><th rowspan="3">作業内容</th><th rowspan="2" colspan="4">作業時間内訳</th><th colspan="4">時間外労働内訳</th><th rowspan="2" colspan="2">時間内訳</th><th rowspan="2" colspan="3">休暇</th><th rowspan="2" colspan="2">控除</th></tr>
+		<tr><th colspan="2">平日・土曜日</th><th colspan="2">法定休日</th></tr>
+		<tr><th>出勤</th><th>退勤</th><th>休憩時間</th><th>総時間</th><th>通常</th><th>深夜</th><th>通常</th><th>深夜</th><th>自社</th><th>客先</th><th>休暇(任意)</th><th>時間</th><th>種別</th><th>遅刻</th><th>早退</th></tr>
+		<!--ここにデータをappendで挿入-->
+	</table>
+	<div class="f">
+		<div>◆作業時間一覧</div>
+		<div>◆時間外作業一覧</div>
+	</div>
+	<div class="f">
+		<table border="1">
+			<tr><th>客先時間</th><td></td></tr>
+			<tr><th>自社時間</th><td></td></tr>
+		</table>
+		<table border="1">
+			<tr><th>平日・土曜日60h以下</th><td></td><th>法定休日作業</th><td></td></tr>
+			<tr><th>平日・土曜日60h超過</th><td></td><th>時間外作業総時間</th><td></td></tr>
+		</table>
+	</div>
+	<button class="button" id="BACK_button">戻る</button>
+	<button class="button" id="OK_button">OK</button>
+	
+	<!--ポップアップ時のグレー処理-->
+	<div id="pop_back"></div>
+	
+	<!--一括入力ポップアップ-->
+	<div class="pop" id="ALL">
+		<button class="pop_cancel" id="ALL_close">✖</button>
+		<div class="pop_title">一括入力</div>
+		<div class="pop_input_group">
+			<label>出勤時間</label>
+			<input class="pop_input" type="text">
+		</div>
+		<div class="pop_input_group">
+			<label>退勤時間</label>
+			<input class="pop_input" type="text">
+		</div>
+		<div class="pop_button_group">
+			<button class="pop_button" style="background-color: #FFD700;">客先</button>
+			<button class="pop_button" style="background-color: #87CEEB;">自社</button>
+		</div>
+	</div>
+	
+		<!--保存確認ポップアップ-->
+	<div class="pop" id="OK">
+		<button class="pop_cancel" id="OK_close">✖</button>
+		<div class="pop_title_alone">保存しますか？</div>
+		<button class="pop_button_alone">OK</button>
+	</div>
+	
+	<!--戻る確認ポップアップ-->
+	<div class="pop" id="BACK">
+		<button class="pop_cancel" id="BACK_close">✖</button>
+		<div class="pop_title_memory"><span style="color: red;">※保存していないため<br>入力されたデータが消えます<br></span>よろしいですか？</div>
+		<button class="pop_button_alone">OK</button>
+	</div>
+	
 </body>
 <script>
+	$("#ALL").hide();
+	$("#OK").hide();
+	$("#BACK").hide();
+	$("#pop_back").hide();
+	
+	//一括ボタン押下時
+	$("#ALL_button").on("click",function(){
+		$("#ALL").show();
+		$("#pop_back").show();
+	})
+	
+	//一括入力ポップアップ
+	$("#ALL_close").on("click",function(){
+		$("#ALL").hide();
+		$("#pop_back").hide();
+	})
+	
+	//戻るボタン押下時
+	$("#BACK_button").on("click",function(){
+		$("#BACK").show();
+		$("#pop_back").show();
+	})
+	
+	//戻る確認ポップアップ
+	$("#ALL_close").on("click",function(){
+		$("#ALL").hide();
+		$("#pop_back").hide();
+	})
+	
+	//保存ボタン押下時
+	$("#OK_button").on("click",function(){
+		$("#OK").show();
+		$("#pop_back").show();
+	})
+	
+	//保存確認ポップアップ
+	$("#ALL_close").on("click",function(){
+		$("#ALL").hide();
+		$("#pop_back").hide();
+	})
+	
 </script>
 
 </html>

@@ -1,0 +1,147 @@
+【データベース作成】
+create database company_money_maneger;
+
+【データベース選択】
+use company_money_maneger;
+
+【カレンダーテーブル】
+＜作成＞
+CREATE TABLE TP_Calendar(
+        date		DATE,
+        wday		VARCHAR(3) NOT NULL,
+        holiday_flg	BOOLEAN,
+    PRIMARY KEY (date)
+);
+＜確認＞
+DESC TP_Calendar;
+
+【休暇種別テーブル】
+＜作成＞
+CREATE TABLE TC_HolidayType(
+        holiday_type		VARCHAR(2),
+        holiday_type_name	VARCHAR(20) NOT NULL,
+    PRIMARY KEY (holiday_type)
+);
+＜確認＞
+DESC TC_HolidayType;
+
+【契約形態テーブル】
+＜作成＞
+CREATE TABLE TC_Agreement(
+        agreement_id	VARCHAR(4),
+        agreement_name	VARCHAR(20) NOT NULL,
+    PRIMARY KEY (agreement_id)
+);
+＜確認＞
+DESC TC_Agreement;
+
+【社員マスタ】
+＜作成＞
+CREATE TABLE TM_Staff(
+        staff_id	VARCHAR(6),
+        staff_name	VARCHAR(30) NOT NULL,
+        y_holiday	INT(2),
+        del_flg		BOOLEAN,
+        create_date	DATE NOT NULL,
+        update_date	DATE,
+    PRIMARY KEY (staff_id)
+);
+＜確認＞
+DESC TM_Staff;
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+＜テストデータ登録＞
+INSERT INTO TM_Staff (staff_id, user_kbn_name)
+VALUES ("1", "一般"),("9", "管理者");
+＜テストデータ確認＞
+SELECT * FROM TM_Staff;
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+
+【勤務先マスタ】
+＜作成＞
+CREATE TABLE TM_Location(
+        location_id	VARCHAR(4),
+        location_name	VARCHAR(30),
+        create_date	DATE,
+        update_date	DATE,
+    PRIMARY KEY (location_id)
+);
+＜確認＞
+DESC TM_Location;
+
+【社員勤務先テーブル】
+＜作成＞
+CREATE TABLE TE_Staff_Location(
+        staff_id	VARCHAR(6),
+        location_id	VARCHAR(4),
+        agreement_id	VARCHAR(4),
+        road_money	INT,
+        start_time	TIME NOT NULL,
+        end_time	TIME NOT NULL,
+        work_time	TIME NOT NULL,
+        overtime_start	TIME NOT NULL,
+        del_flg		BOOLEAN,
+        note		VARCHAR(300),
+    FOREIGN KEY (staff_id)	REFERENCES TM_Staff(staff_id),
+    FOREIGN KEY (location_id)	REFERENCES TM_Location(location_id),
+    FOREIGN KEY (agreement_id)	REFERENCES TC_Agreement(agreement_id),
+    PRIMARY KEY (staff_id, location_id, agreement_id)
+);
+＜確認＞
+DESC TE_Staff_Location;
+
+【勤務時間テーブル】
+＜作成＞
+CREATE TABLE TE_Time(
+        staff_id		VARCHAR(6),
+        date			DATE,
+        work_content		VARCHAR(100),
+        start_time		TIME,
+        end_time		TIME,
+        break_time		TIME,
+        overtime_normal		TIME,
+        overtime_night		TIME,
+        overtime_nosat		TIME,
+        overtime_nosat_night	TIME,
+        private_time		TIME,
+        customer_time		TIME,
+        break_time_any		TIME,
+        holiday_time		TIME,
+        holiday_type		VARCHAR(2),
+        slow			TIME,
+        early			TIME,
+    FOREIGN KEY (staff_id)	REFERENCES TM_Staff(staff_id),
+    FOREIGN KEY (date)		REFERENCES TP_Calendar(date),
+    FOREIGN KEY (holiday_type)	REFERENCES TC_HolidayType(holiday_type),
+    PRIMARY KEY (staff_id, date)
+);
+＜確認＞
+DESC TE_Time;
+
+【一時勤務時間テーブル】
+＜作成＞
+CREATE TABLE TT_Time(
+        staff_id		VARCHAR(6),
+        date			DATE,
+        work_content		VARCHAR(100),
+        start_time		TIME,
+        end_time		TIME,
+        break_time		TIME,
+        overtime_normal		TIME,
+        overtime_night		TIME,
+        overtime_nosat		TIME,
+        overtime_nosat_night	TIME,
+        private_time		TIME,
+        customer_time		TIME,
+        break_time_any		TIME,
+        holiday_time		TIME,
+        holiday_type		VARCHAR(2),
+        slow			TIME,
+        early			TIME,
+    FOREIGN KEY (staff_id)	REFERENCES TM_Staff(staff_id),
+    FOREIGN KEY (date)		REFERENCES TP_Calendar(date),
+    FOREIGN KEY (holiday_type)	REFERENCES TC_HolidayType(holiday_type),
+    PRIMARY KEY (staff_id, date)
+);
+＜確認＞
+DESC TT_Time;

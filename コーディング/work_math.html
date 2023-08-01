@@ -36,9 +36,8 @@
 			<tr><th>平日・土曜日60h超過</th><td></td><th>時間外作業総時間</th><td></td></tr>
 		</table>
 	</div>
-	<button class="button" id="BACK_button">戻る</button>
-	<button class="button" id="OK_button">OK</button>
-	
+	<button class="button_back" id="BACK_button">戻る</button>
+	<button class="button_memory" id="MEMORY_button">保存</button>
 	<!--ポップアップ時のグレー処理-->
 	<div id="pop_back"></div>
 	
@@ -48,21 +47,21 @@
 		<div class="pop_title">一括入力</div>
 		<div class="pop_input_group">
 			<label>出勤時間</label>
-			<input class="pop_input" type="text">
+			<input class="pop_input" type="time">
 		</div>
 		<div class="pop_input_group">
 			<label>退勤時間</label>
-			<input class="pop_input" type="text">
+			<input class="pop_input" type="time">
 		</div>
 		<div class="pop_button_group">
-			<button class="pop_button" style="background-color: #FFD700;">客先</button>
-			<button class="pop_button" style="background-color: #87CEEB;">自社</button>
+			<button class="pop_button" id="customer_button" style="background-color: #FFD700;">客先</button>
+			<button class="pop_button" id="commpany_button" style="background-color: #87CEEB;">自社</button>
 		</div>
 	</div>
 	
 		<!--保存確認ポップアップ-->
-	<div class="pop" id="OK">
-		<button class="pop_cancel" id="OK_close">✖</button>
+	<div class="pop" id="MEMORY">
+		<button class="pop_cancel" id="MEMORY_close">✖</button>
 		<div class="pop_title_alone">保存しますか？</div>
 		<button class="pop_button_alone">OK</button>
 	</div>
@@ -70,14 +69,13 @@
 	<!--戻る確認ポップアップ-->
 	<div class="pop" id="BACK">
 		<button class="pop_cancel" id="BACK_close">✖</button>
-		<div class="pop_title_memory"><span style="color: red;">※保存していないため<br>入力されたデータが消えます<br></span>よろしいですか？</div>
+		<div class="pop_title_memorycheck"><span style="color: red;">※保存していないため<br>入力されたデータが消えます<br></span>よろしいですか？</div>
 		<button class="pop_button_alone">OK</button>
 	</div>
-	
 </body>
 <script>
 	$("#ALL").hide();
-	$("#OK").hide();
+	$("#MEMORY").hide();
 	$("#BACK").hide();
 	$("#pop_back").hide();
 	
@@ -88,9 +86,20 @@
 	})
 	
 	//一括入力ポップアップ
+	//一括入力ボタン押下時
 	$("#ALL_close").on("click",function(){
 		$("#ALL").hide();
 		$("#pop_back").hide();
+	})
+	
+	//一括入力客先ボタン押下時
+	$("#customer_button").on("click",function(){
+		
+	})
+	
+	//一括入力自社ボタン押下時
+	$("#commpany_button").on("click",function(){
+		
 	})
 	
 	//戻るボタン押下時
@@ -100,20 +109,20 @@
 	})
 	
 	//戻る確認ポップアップ
-	$("#ALL_close").on("click",function(){
-		$("#ALL").hide();
+	$("#BACK_close").on("click",function(){
+		$("#BACK").hide();
 		$("#pop_back").hide();
 	})
 	
 	//保存ボタン押下時
-	$("#OK_button").on("click",function(){
-		$("#OK").show();
+	$("#MEMORY_button").on("click",function(){
+		$("#MEMORY").show();
 		$("#pop_back").show();
 	})
 	
 	//保存確認ポップアップ
-	$("#ALL_close").on("click",function(){
-		$("#ALL").hide();
+	$("#MEMORY_close").on("click",function(){
+		$("#MEMORY").hide();
 		$("#pop_back").hide();
 	})
 	

@@ -19,9 +19,18 @@ body{
 	margin-left: 5%;
 }
 
-.button{
+.button_memory{
 	width: 50;
 	height: 30;
+	position: absolute;
+	right: 100;
+}
+
+.button_back{
+	width: 50;
+	height: 30;
+	position: absolute;
+	left: 100;
 }
 
 .input{
@@ -101,7 +110,7 @@ body{
 	margin: 80 auto 10 auto;
 }
 
-.pop_title_memory{
+.pop_title_memorycheck{
 	width: fit-content;
 	font-size: 30;
 	margin: 50 auto 0 auto;

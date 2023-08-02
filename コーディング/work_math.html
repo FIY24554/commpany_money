@@ -16,7 +16,7 @@
 		<button class="button" id="ALL_button">一括</button>
 	</div>
 	<br>
-	<table border="1">
+	<table border="1" id="staff_time">
 		<tr><th rowspan="3"colspan="2">日付</th><th rowspan="3">作業内容</th><th rowspan="2" colspan="4">作業時間内訳</th><th colspan="4">時間外労働内訳</th><th rowspan="2" colspan="2">時間内訳</th><th rowspan="2" colspan="3">休暇</th><th rowspan="2" colspan="2">控除</th></tr>
 		<tr><th colspan="2">平日・土曜日</th><th colspan="2">法定休日</th></tr>
 		<tr><th>出勤</th><th>退勤</th><th>休憩時間</th><th>総時間</th><th>通常</th><th>深夜</th><th>通常</th><th>深夜</th><th>自社</th><th>客先</th><th>休暇(任意)</th><th>時間</th><th>種別</th><th>遅刻</th><th>早退</th></tr>
@@ -47,11 +47,11 @@
 		<div class="pop_title">一括入力</div>
 		<div class="pop_input_group">
 			<label>出勤時間</label>
-			<input class="pop_input" type="time">
+			<input class="pop_input" id="ALL_start" type="time">
 		</div>
 		<div class="pop_input_group">
 			<label>退勤時間</label>
-			<input class="pop_input" type="time">
+			<input class="pop_input" id="ALL_finish" type="time">
 		</div>
 		<div class="pop_button_group">
 			<button class="pop_button" id="customer_button" style="background-color: #FFD700;">客先</button>
@@ -79,6 +79,43 @@
 	$("#BACK").hide();
 	$("#pop_back").hide();
 	
+	//DBのデータを入れる用の変数と初期化
+	var memory = new Array(4);
+	for(i=0;i<4;i++){
+		memory[i] = new Array(16);
+		for(j=0;j<16;j++){
+			memory[i][j] = "00:00";
+		}
+	}
+	
+	var calendar_day = new Array (4);
+	for(i=0;i<4;i++){
+		calendar_day[i] = new Array(2);
+		calendar_day[i][1] = 1;
+		calendar_day[i][2] = "日";
+	}
+	
+	
+	//appendで入れ込む
+	for(i=0;i<memory.length;i++){
+		$("#staff_time").append('<tr id="staff_row'+i+'"></tr>');
+		$("#staff_row"+i).append('<td id="staff_day'+i+'"></td>');
+		$("#staff_row"+i).append('<td id="staff_week'+i+'"></td>');
+		$("#staff_day"+i).text(calendar_day[i][1]);
+		$("#staff_week"+i).text(calendar_day[i][2]);
+		for(j=0;j<16;j++){
+			$("#staff_row"+i).append('<td><input id="staff_data'+i+'_'+j+'" type="text"></td>');
+			$("#staff_data"+i+"_"+j).val(memory[i][j]);
+		}
+	}
+	
+	//テーブルにデータ入力時
+	$("input").on("input", function() {
+		apdate_sum();
+		$("#staff_data"+i+"").
+		
+    });
+	
 	//一括ボタン押下時
 	$("#ALL_button").on("click",function(){
 		$("#ALL").show();
@@ -86,7 +123,7 @@
 	})
 	
 	//一括入力ポップアップ
-	//一括入力ボタン押下時
+	//一括入力閉じるボタン押下時
 	$("#ALL_close").on("click",function(){
 		$("#ALL").hide();
 		$("#pop_back").hide();
@@ -94,12 +131,71 @@
 	
 	//一括入力客先ボタン押下時
 	$("#customer_button").on("click",function(){
-		
+		let ALL_start = $("#ALL_start").val();
+		let ALL_finish = $("#ALL_finish").val();
+		let time_start = time(ALL_start);
+		let time_finish = time(ALL_finish);
+		let time_h = Math.floor((time_finish - time_start)/60);
+		let time_m = (time_finish - time_start)%60;
+		let ALL_time = "";
+		if(time_h.toString().length==1){
+			ALL_time = "0"+time_h+":"+time_m;
+		}
+		if(time_m.toString().length==1){
+			ALL_time = time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==1&&time_m.toString().length==1){
+			ALL_time = "0"+time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==2&&time_m.toString().length==2){
+			ALL_time = time_h+":"+time_m;
+		}
+		if(time_finish - time_start<0){
+			ALL_time = "00:00";
+		}
+		for(i=0;i<calendar_day.length;i++){
+			$("#staff_data"+i+"_1").val(ALL_start);
+			$("#staff_data"+i+"_2").val(ALL_finish);
+			$("#staff_data"+i+"_9").val("00:00");
+			$("#staff_data"+i+"_10").val(ALL_time);
+		}
+		apdate_sum();
+		$("#ALL").hide();
+		$("#pop_back").hide();
 	})
 	
 	//一括入力自社ボタン押下時
 	$("#commpany_button").on("click",function(){
-		
+		let ALL_start = $("#ALL_start").val();
+		let ALL_finish = $("#ALL_finish").val();
+		let time_start = time(ALL_start);
+		let time_finish = time(ALL_finish);
+		let time_h = Math.floor((time_finish - time_start)/60);
+		let time_m = (time_finish - time_start)%60;
+		let ALL_time = "";
+		if(time_h.toString().length==1){
+			ALL_time = "0"+time_h+":"+time_m;
+		}
+		if(time_m.toString().length==1){
+			ALL_time = time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==1&&time_m.toString().length==1){
+			ALL_time = "0"+time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==2&&time_m.toString().length==2){
+			ALL_time = time_h+":"+time_m;
+		}
+		if(time_finish - time_start<0){
+			ALL_time = "00:00";
+		}
+		for(i=0;i<calendar_day.length;i++){
+			$("#staff_data"+i+"_1").val(ALL_start);
+			$("#staff_data"+i+"_2").val(ALL_finish);
+			$("#staff_data"+i+"_9").val(ALL_time);
+			$("#staff_data"+i+"_10").val("00:00");
+		}
+		$("#ALL").hide();
+		$("#pop_back").hide();
 	})
 	
 	//戻るボタン押下時
@@ -126,6 +222,83 @@
 		$("#pop_back").hide();
 	})
 	
+	
+//-------------------------------------ここからfunctionだよ--------------------------------------------------------------------------------------------------------------------------
+	
+	
+	//time型のhh:mmのhhを取り出してint型に変換
+	function time(time){
+		//時間の計算
+		let time_h;
+		if(time.length == 5){
+			time_h = time.slice(0,2);
+		}else if(time.length == 4){
+			time_h = time.slice(0,1);
+		}
+			time_h = time_h * 60;
+		let time_h_trans = parseInt(time_h)
+		//分の計算
+		let time_m;
+		if(time.length == 5){
+			time_m = time.slice(3,5);
+		}else if(time.length == 4){
+			time_m = time.slice(2,4);
+		}
+		let time_m_trans = parseInt(time_m)
+		
+		let time_sum = time_m_trans + time_h_trans;
+		
+		return time_sum;
+	}
+	
+	//time型からの変換後の0埋め
+	function zero(time_h,time_m,time_finish,time_start){
+		let time;
+		if(time_h.toString().length==1){
+			time = "0"+time_h+":"+time_m;
+		}
+		if(time_m.toString().length==1){
+			time = time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==1&&time_m.toString().length==1){
+			time = "0"+time_h+":0"+time_m;
+		}
+		if(time_h.toString().length==2&&time_m.toString().length==2){
+			time = time_h+":"+time_m;
+		}
+		if(time_finish - time_start<0){
+			time = "error";
+		}
+		return time;
+	}
+	
+	//出勤時間と退勤時間の入力内容をもとに総時間を自動計算
+	function apdate_sum(){
+		for(i=0;i<calendar_day.length;i++){
+			let start_time = $("#staff_data"+i+"_1").val();
+			let finish_time = $("#staff_data"+i+"_2").val();
+			let break_time = $("#staff_data"+i+"_3").val();
+			start_time = time(start_time);
+			finish_time = time(finish_time);
+			break_time = time(break_time);
+			let sum_h = Math.floor(((finish_time - start_time) - break_time)/60);
+			let sum_m = ((finish_time - start_time) - break_time)%60;
+			let sum_time = zero(sum_h,sum_m,finish_time,start_time);
+			$("#staff_data"+i+"_4").val(sum_time);
+			$("#staff_data"+i+"_10").val(sum_time);
+			//総合計と客先+自社の値が異なるときのエラー
+			let sum_check = $("#staff_data"+i+"_4").val();
+			let commpany_check = $("#staff_data"+i+"_9").val();
+			let customr_check = $("#staff_data"+i+"_10").val();
+			if(time(sum_check) == time(commpany_check)+time(customr_check)){
+				$("#staff_data"+i+"_9").css('background-color', 'white');
+				$("#staff_data"+i+"_10").css('background-color', 'white');
+			}else{
+				$("#staff_data"+i+"_9").css('background-color', 'red');
+				$("#staff_data"+i+"_10").css('background-color', 'red');
+			}
+		}
+	}
 </script>
 
 </html>

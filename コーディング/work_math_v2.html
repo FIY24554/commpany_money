@@ -97,7 +97,7 @@
 	<div class="pop" id="MEMORY">
 		<button class="pop_cancel" id="MEMORY_close">✖</button>
 		<div class="pop_title_alone">保存しますか？</div>
-		<button class="pop_button_alone">OK</button>
+		<button class="pop_button_alone" id="MEMORY_OK">OK</button>
 	</div>
 	
 	<!--戻る確認ポップアップ-->
@@ -106,13 +106,13 @@
 		<div class="pop_title_memorycheck">
 			<span style="color: red;">※保存していないため<br>入力されたデータが消えます<br></span>よろしいですか？
 		</div>
-		<button class="pop_button_alone">OK</button>
+		<button class="pop_button_alone" id="BACK_OK">OK</button>
 	</div>
 </body>
 <script>
 window.addEventListener('load', function() {
   window.addEventListener('popstate', function(event) {
-    alert('※保存していない場合はデータが消えてしまいますがよろしいですか？');
+    alert('もう一度このボタンを押すと保存していないデータは消えてしまいます😱');
   });
   history.pushState(null, null, null);
 });
@@ -120,6 +120,14 @@ window.addEventListener('load', function() {
 	$("#MEMORY").hide();
 	$("#BACK").hide();
 	$("#pop_back").hide();
+	
+	let year = "2023";
+	let month = "4";
+	if(month.length==1){
+		month += "0"+month;
+	}
+	let sql_select_length = 'select date from TP_Calendar where date LIKE "'+year+'-'+month+'%"';
+	
 	
 	//DBのデータを入れる用の変数と初期化
 	var memory = new Array(31);
@@ -253,11 +261,18 @@ window.addEventListener('load', function() {
 		$("#pop_back").show();
 	})
 	
-	//戻る確認ポップアップ
+	//戻る確認ポップアップ閉じるボタン押下時
 	$("#BACK_close").on("click",function(){
 		$("#BACK").hide();
 		$("#pop_back").hide();
 	})
+
+	//戻る確認ポップアップ閉じるボタン押下時
+	$("#BACK_OK").on("click",function(){
+		$("#BACK").hide();
+		$("#pop_back").hide();
+	})
+
 	
 	//保存ボタン押下時
 	$("#MEMORY_button").on("click",function(){
@@ -265,8 +280,26 @@ window.addEventListener('load', function() {
 		$("#pop_back").show();
 	})
 	
-	//保存確認ポップアップ
+	//保存確認閉じるボタン押下時
 	$("#MEMORY_close").on("click",function(){
+		$("#MEMORY").hide();
+		$("#pop_back").hide();
+	})
+	
+	//保存確認OKボタン押下時
+	$("#MEMORY_OK").on("click",function(){
+		let sql_insert = "INSERT INTO TE_Time VALUE("
+		for(i=0;i<calendar_day.length;i++){
+			for(j=0;j<16;j++){
+				if(j!=4){
+					let sql_pulus = $("#staff_data"+i+"_"+j).val();
+					sql_insert += '"'+sql_pulus+'",';
+				}
+			}
+		};
+		sql_insert += '");'
+		alert(sql_insert);
+		//insert文
 		$("#MEMORY").hide();
 		$("#pop_back").hide();
 	})
@@ -323,6 +356,7 @@ window.addEventListener('load', function() {
 	
 	//出勤時間と退勤時間の入力内容をもとに総時間を自動計算
 	function apdate_sum(){
+		let error_check = false;
 		for(i=0;i<calendar_day.length;i++){
 			let start_time = $("#staff_data"+i+"_1").val();
 			let finish_time = $("#staff_data"+i+"_2").val();
@@ -344,6 +378,7 @@ window.addEventListener('load', function() {
 			}else{
 				$("#staff_data"+i+"_9").css('background-color', 'red');
 				$("#staff_data"+i+"_10").css('background-color', 'red');
+				error_check = true;
 			}
 		}
 		//総合計の総合計
@@ -407,6 +442,21 @@ window.addEventListener('load', function() {
 		let sum_ov_all_m = (sum_ov_all_int)%60;
 		let sum_ov_all = zero(sum_ov_all_h,sum_ov_all_m,0,0);
 		$("#sum_ov_all").text(sum_ov_all);
+		//入力された値が24以上だった場合のエラー
+		error(1);
+		error(2);
+		error(3);
+		error(5);
+		error(6);
+		error(7);
+		error(8);
+		error(9);
+		error(10);
+		error(11);
+		error(12);
+		error(14);
+		error(15);
+
 	}
 	
 	//総合計を求める
@@ -435,6 +485,27 @@ window.addEventListener('load', function() {
 		let sum_all_m = (sum_all_save%60);
 		sum_all_text = zero(sum_all_h,sum_all_m,0,0);
 		return sum_all_text;
+	}
+	
+	//24以上もしくはマイナスの値の時のエラー
+	function error(type){
+		for(i=0;i<calendar_day.length;i++){
+			let ov_check = $("#staff_data"+i+"_"+type).val();
+			ov_check_int = time(ov_check);
+			if(ov_check_int>1440){
+				$("#staff_data"+i+"_"+type).css('background-color','red');
+			}else{
+				if(type==1||type==2||type==9||type==10){
+					if(type==1||type==2){
+						$("#staff_data"+i+"_"+type).css('background-color','yellow');
+					}else if(error_check==true){
+						$("#staff_data"+i+"_"+type).css('background-color','yellow');
+					}
+				}else{
+					$("#staff_data"+i+"_"+type).css('background-color','white');
+				}
+			}
+		}
 	}
 	
 </script>

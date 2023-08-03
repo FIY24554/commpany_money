@@ -5,8 +5,9 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<h1>勤務時間計算画面</h1>
 	<div class="f">
+		<label>勤務時間計算画面</label>
+		<button class="button_back" id="BACK_button">戻る</button>
 		<div>社員</div>
 		<select class="input"></select>
 		<div class="m">交通費</div>
@@ -17,7 +18,7 @@
 	</div>
 	<br>
 	<table border="1" id="staff_time">
-		<tr><th rowspan="3"colspan="2">日付</th>
+		<tr class="table_bar1"><th rowspan="3"colspan="2">日付</th>
 			<th rowspan="3">作業内容</th>
 			<th rowspan="2" colspan="4">作業時間内訳</th>
 			<th colspan="4">時間外労働内訳</th>
@@ -25,12 +26,12 @@
 			<th rowspan="2" colspan="2">休暇</th>
 			<th rowspan="2" colspan="2">控除</th>
 		</tr>
-		<tr>
+		<tr class="table_bar2">
 			<th colspan="2">平日・土曜日</th><th colspan="2">法定休日</th>
 		</tr>
-		<tr>
+		<tr class="table_bar3">
 			<th>出勤</th><th>退勤</th>
-			<th>休憩時間</th>
+			<th>休憩</th>
 			<th>総時間</th>
 			<th>通常</th>
 			<th>深夜</th>
@@ -69,9 +70,8 @@
 				<td id="sum_ov_all" style="background-color:#d3d3d3;">0:00</td>
 			</tr>
 		</table>
+		<button class="button_memory" id="MEMORY_button">保存</button>
 	</div>
-	<button class="button_back" id="BACK_button">戻る</button>
-	<button class="button_memory" id="MEMORY_button">保存</button>
 	<!--ポップアップ時のグレー処理-->
 	<div id="pop_back"></div>
 	
@@ -110,6 +110,12 @@
 	</div>
 </body>
 <script>
+window.addEventListener('load', function() {
+  window.addEventListener('popstate', function(event) {
+    alert('※保存していない場合はデータが消えてしまいますがよろしいですか？');
+  });
+  history.pushState(null, null, null);
+});
 	$("#ALL").hide();
 	$("#MEMORY").hide();
 	$("#BACK").hide();
@@ -167,7 +173,7 @@
 	}
 	
 	//総合計をappendで入れ込む
-	$("#staff_time").append('<tr><th colspan="6">総時間</th>'+
+	$("#staff_time").append('<tr class="table_bar4"><th colspan="6">総時間</th>'+
 							'<td id="sum_all"style="width:50;font-size:13;background-color:#d3d3d3;">00:00</td>'+
 							'<td id="sum_ovt_n" style="width:50;font-size:13;background-color:#d3d3d3;">00:00</td>'+
 							'<td id="sum_ovt_e" style="width:50;font-size:13;background-color:#d3d3d3;">00:00</td>'+

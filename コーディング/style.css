@@ -5,7 +5,7 @@ h1{
 }
 
 body{
-	width: 1000;
+	width: 1100;
 	margin: 0 auto;
 }
 
@@ -27,10 +27,11 @@ body{
 }
 
 .button_back{
-	width: 50;
+	width: 125;
 	height: 30;
 	position: absolute;
-	left: 100;
+	top: 20;
+	left: 105;
 }
 
 .input{
@@ -40,7 +41,7 @@ body{
 
 /*ポップアップ*/
 .pop{
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translateY(-50%) translateX(-50%);
@@ -51,7 +52,7 @@ body{
 }
 
 #pop_back{
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translateY(-50%) translateX(-50%);
@@ -115,5 +116,34 @@ body{
 	font-size: 30;
 	margin: 50 auto 0 auto;
 	text-align: center;
+}
+
+#staff_time{
+	height: 500;
+	width: 1100;
+	display: block;
+	overflow-y: scroll;
+}
+.table_bar1{
+	position: sticky;
+	top: 0;
+	background-color: white;
+}
+
+.table_bar2{
+	position: sticky;
+	top: 28;
+	background-color: white;
+}
+
+.table_bar3{
+	position: sticky;
+	top: 56;
+	background-color: white;
+}
+.table_bar4{
+	position: sticky;
+	bottom: 0;
+	background-color: white;
 }
 

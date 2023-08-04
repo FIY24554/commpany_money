@@ -3,6 +3,7 @@
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<link rel="stylesheet" href="style.css">
+	<script src="DB/DB_sql.js"></script>
 </head>
 <body>
 	<div class="f">
@@ -127,7 +128,8 @@ window.addEventListener('load', function() {
 		month += "0"+month;
 	}
 	let sql_select_length = 'select date from TP_Calendar where date LIKE "'+year+'-'+month+'%"';
-	
+	//let DBsql_select_length = DB.sql(sql_select_length);
+	alert(DBsql_select_length);
 	
 	//DBのデータを入れる用の変数と初期化
 	var memory = new Array(31);

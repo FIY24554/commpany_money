@@ -10,7 +10,6 @@ body{
 }
 
 /*勤務時間計算画面*/
-.
 .f{
 	display: flex;
 	margin-left: 10%;
@@ -38,6 +37,26 @@ body{
 .input{
 	height: 20;
 	width: 100;
+}
+
+/* カレンダー画面 */
+#calendar{
+	margin-top: 20px;
+}
+.mon_r{
+	width: 100%;
+	display: flex;
+}
+.month{
+	margin: 0 100px 50px 0;
+	text-align: center;
+	flex: 1;
+}
+.sat{
+	background-color: #b0e0e6;
+}
+.sun, .hol{
+	background-color: #ffb6c1;
 }
 
 /*ポップアップ*/

@@ -20,7 +20,7 @@
 </body>
 <script>
     // 年プルダウンのデータを追加
-    let cal_tb = DB.sql("select distinct YEAR(date) from tp_calendar;");
+    let cal_tb = DB.sql("select distinct YEAR(date) from TP_Calendar;");
     for(let i=0; i<cal_tb.length; i++){
         $("#calendar_y_s").append('<option value="'+cal_tb[i]["YEAR(date)"]+'">'+cal_tb[i]["YEAR(date)"]+'年</option>')
     }
@@ -44,7 +44,7 @@
 
             // TP_Calendarからデータを取得
             // console.log(DB.sql('select DATE_FORMAT(date,"%e") as date, wday, holiday_flg from tp_calendar where date_format(date,"%Y%c")='+select_year+(i+1)));
-            let days = DB.sql('select DATE_FORMAT(date,"%e") as dd, date, wday, holiday_flg from tp_calendar where date_format(date,"%Y%c")='+select_year+(i+1));
+            let days = DB.sql('select DATE_FORMAT(date,"%e") as dd, date, wday, holiday_flg from TP_Calendar where date_format(date,"%Y%c")='+select_year+(i+1));
             // 日曜日始まりで日付を表示
             let week = 0;       // 曜日判定用
             let week_cnt = 0;   // 週間判定用
@@ -98,17 +98,16 @@
         }
 
         // 日付がクリックされた場合
-        // $("td").on("click",function(){
-        //     let day = $(this).text();
-        //     console.log(day);
-        //     console.log( $(this) );
-        //     console.log( $(this).val() );
-        //     // TP_Calendarからデータを取得
-        //     // console.log(DB.sql('select date, wday, holiday_flg from tp_calendar where date='+$(this).val()));
-        //     // let days = DB.sql('select DATE_FORMAT(date,"%e") as date, wday, holiday_flg from tp_calendar where date_format(date,"%Y%c")='+select_year+(i+1));
+        $("td").on("click",function(){
+            let day = $(this).text();
+            console.log(day);
+            // console.log( $(this).attr("value") );
+            // TP_Calendarからデータを取得
+            console.log(DB.sql('select date, wday, holiday_flg from TP_Calendar where date="'+$(this).attr("value")+'"'));
+            // let days = DB.sql('select DATE_FORMAT(date,"%e") as date, wday, holiday_flg from TP_Calendar where date_format(date,"%Y%c")='+select_year+(i+1));
 
-        //     $(this).css("background-color","ffff00");
-        // });
+            $(this).css("background-color","ffff00");
+        });
     });
 
     // 土日祝の背景色を設定

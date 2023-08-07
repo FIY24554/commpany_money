@@ -10,10 +10,10 @@ DELETE FROM TP_Calendar;
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
 【データベース作成】
-create database company_money_maneger;
+CREATE DATABASE company_money_maneger;
 
 【データベース選択】
-use company_money_maneger;
+USE company_money_maneger;
 
 【カレンダーテーブル】
 ＜作成＞

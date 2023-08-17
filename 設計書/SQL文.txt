@@ -41,7 +41,7 @@ CREATE TABLE TC_HolidayType(
 DESC TC_HolidayType;
 ＜テストデータ登録＞
 INSERT INTO TC_HolidayType (holiday_type, holiday_type_name)
-VALUES ("01", "有休"),("02", "体調不良");
+VALUES ("01", "有休"),("02", "体調不良"),("99", "-");
 ＜テストデータ確認＞
 SELECT * FROM TC_HolidayType;
 
